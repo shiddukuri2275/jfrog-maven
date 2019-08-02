@@ -9,7 +9,7 @@ node {
     }
  
     stage ('Unit Test') {
-        rtMaven.tool = 'Maven-3.6.1' // Tool name from Jenkins configuration
+        rtMaven.tool = 'maven' // Tool name from Jenkins configuration
         rtMaven.run pom: 'pom.xml', goals: 'clean compile test'
     }
     
@@ -22,7 +22,7 @@ node {
     stage ('Artifactory configuration') {
         // Obtain an Artifactory server instance, defined in Jenkins --> Manage..:
          
-        rtMaven.tool = 'Maven-3.6.1' // Tool name from Jenkins configuration
+        rtMaven.tool = 'maven' // Tool name from Jenkins configuration
         rtMaven.deployer releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local', server: server
         rtMaven.resolver releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot', server: server
         rtMaven.deployer.deployArtifacts = false // Disable artifacts deployment during Maven run
@@ -40,16 +40,16 @@ node {
         server.publishBuildInfo buildInfo
     }
     
-    stage('Status Notification'){
-        def mailRecipients = "ramesh.thadivada@gmail.com"
-        def subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER}- ${currentBuild.result}"
+    //stage('Status Notification'){
+     //   def mailRecipients = "ramesh.thadivada@gmail.com"
+       // def subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER}- ${currentBuild.result}"
        
-        mail bcc: '',
-             from: 'manee2k6@gmail.com',
-             to: 'manee2k6@gmail.com, ramesh.thadivada@gmail.com',
-             subject: subject,
-             body: "Build Number: #${env.BUILD_NUMBER}  Status:${currentBuild.result} Build URL: ${env.BUILD_URL}"
+       // mail bcc: '',
+         //    from: 'manee2k6@gmail.com',
+           //  to: 'manee2k6@gmail.com, ramesh.thadivada@gmail.com',
+             //subject: subject,
+             //body: "Build Number: #${env.BUILD_NUMBER}  Status:${currentBuild.result} Build URL: ${env.BUILD_URL}"
           
-   }
+ //  }
    
 }
